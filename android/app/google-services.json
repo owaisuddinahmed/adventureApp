@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "130382821317",
+    "project_id": "adventure-79d56",
+    "storage_bucket": "adventure-79d56.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:130382821317:android:70d72f87c582d2c273fdac",
+        "android_client_info": {
+          "package_name": "com.example.adventure"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDGRYZ0X_q9fHeA7x0xeKJ-zFh8ITbyB88"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
