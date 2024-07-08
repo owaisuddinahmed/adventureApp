@@ -6,6 +6,7 @@ abstract class Routes {
   static const SIGNUPVIEW = _Paths.SIGNUPVIEW;
   static const LOGINVIEW = _Paths.LOGINVIEW;
   static const SELECTLANGUAGE = _Paths.SELECTLANGUAGE;
+  static const HOMEVIEW = _Paths.HOMEVIEW;
 
 }
 
@@ -14,5 +15,7 @@ abstract class _Paths {
   static const SIGNUPVIEW = '/sign_up_view';
   static const LOGINVIEW = '/login_view';
   static const SELECTLANGUAGE = '/select_language_view';
+  static const HOMEVIEW = '/home_view';
+
 
 }

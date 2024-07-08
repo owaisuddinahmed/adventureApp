@@ -226,9 +226,11 @@ class SignUpView extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  CustomText(text: "Already have an account? "
-                  ,fontSize: 14.sp,
-                    fontStyle: FontStyle.italic,
+                  Flexible(
+                    child: CustomText(text: "Already have an account? "
+                    ,fontSize: 14.sp,
+                      fontStyle: FontStyle.italic,
+                    ),
                   ),
 
                   GestureDetector(

@@ -170,7 +170,7 @@ class LoginView extends StatelessWidget {
                 controller: controller.btnController,
                 onTap: () async {
                   if (controller.formKey.currentState!.validate()) {
-                    // controller.signUp(context);
+                    controller.signIn(controller.userNameController.text, controller.passwordController.text, context);
                   }
                 },
               ),
@@ -187,9 +187,7 @@ class LoginView extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      if (controller.formKey.currentState!.validate()) {
-                        controller.signIn(controller.userNameController.text, controller.passwordController.text, context);
-                      }
+                      Get.toNamed(Routes.SIGNUPVIEW);
                     },
                     child: CustomText(
                       text: "Sign Up",
