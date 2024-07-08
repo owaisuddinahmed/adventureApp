@@ -31,10 +31,10 @@ class LoginView extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         centerTitle: true,
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.transparent,
         title: CustomText(
           text: 'Sign In',
-          fontSize: 22.sp,
+          fontSize: 18.sp,
           fontWeight: FontWeight.bold,
         ),
       ),
@@ -46,7 +46,7 @@ class LoginView extends StatelessWidget {
           key: controller.formKey,
           child: ListView(
             shrinkWrap: true,
-            padding: EdgeInsets.all(8.h),
+            padding: EdgeInsets.all(4.h),
             children: [
               CustomText(
                 text: "Hello there 👋",
@@ -139,7 +139,7 @@ class LoginView extends StatelessWidget {
                   child: Row(
                     children: [
                       Container(
-                        height: 3.5.h,
+                        height: 3.h,
                         width: 6.w,
                         padding: EdgeInsets.all(0.5.h),
                         decoration: BoxDecoration(
@@ -165,11 +165,13 @@ class LoginView extends StatelessWidget {
                 height: 5.h,
               ),
               CustomUniversalButton(
-                title: 'Sign Up'.tr,
+                title: 'Sign In'.tr,
                 height: 6.h,
                 controller: controller.btnController,
                 onTap: () async {
                   if (controller.formKey.currentState!.validate()) {
+                    Util.hideKeyBoard(context);
+
                     controller.signIn(controller.userNameController.text, controller.passwordController.text, context);
                   }
                 },
@@ -187,7 +189,7 @@ class LoginView extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Get.toNamed(Routes.SIGNUPVIEW);
+                      Get.offAllNamed(Routes.SIGNUPVIEW);
                     },
                     child: CustomText(
                       text: "Sign Up",

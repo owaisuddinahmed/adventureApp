@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 class HomeController extends GetxController {
+  GlobalKey<FormState> formKey = GlobalKey();
 
   final RoundedLoadingButtonController btnController = RoundedLoadingButtonController();
 
@@ -27,6 +28,7 @@ class HomeController extends GetxController {
   final _db = FirebaseFirestore.instance;
 
   RxBool isOpen = false.obs;
+  RxBool hideFloatingBtn = false.obs;
 
 
   void createEvent() {
@@ -42,6 +44,10 @@ class HomeController extends GetxController {
 
     _db.collection("event").add(userMap).then((DocumentReference doc) {
       print('User added with ID: ${doc.id}');
+      eventName.clear();
+      eventDateTime.clear();
+      eventDescription.clear();
+      eventLocationName.clear();
       Get.back();
       // Get.toNamed(Routes.LOGINVIEW);
     }).catchError((error) {

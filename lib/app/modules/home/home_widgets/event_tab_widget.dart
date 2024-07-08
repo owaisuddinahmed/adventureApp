@@ -27,38 +27,57 @@ class EventTabWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding:  EdgeInsets.only(top: 2.h,bottom: 1.h,left: 10,right: 10),
-              child: CustomText(text: "Recent",fontSize: 14.sp,fontWeight: FontWeight.bold,
-              ),
-            ),
+
       Expanded(
         child: StreamBuilder<QuerySnapshot>(
+
         stream: FirebaseFirestore.instance.collection('event').snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
           if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           }
           if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return Center(child: Text('No events found'));
+            return Center(
+              child: Column(
+mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const CustomText(text: "Add a new Event!",fontWeight: FontWeight.bold,),
+                  SizedBox(height: 2.h,),
+                  const CustomText(text: "Invite the  Location Admins to their new\nEvent and Management App",
+                    center: true,
+                  ),
+                ],
+              ),
+            );
           }
           return ListView.builder(
-            itemCount: snapshot.data!.docs.length,
+            itemCount: snapshot.data!.docs.length + 1,
             itemBuilder: (context, index) {
-              var event = snapshot.data!.docs[index].data() as Map<String, dynamic>;
-              var eventName = event['event_name'] ?? 'Event Name Missing';
-              var desc = event['event_description'] ?? 'Event Name Missing';
-              var loc = event['event_location'] ?? 'Event Name Missing';
-              var date = event['event_date_time'] ?? 'Event Name Missing';
-              return Container(
+              if (index == 0) {
+                return Padding(
+                  padding: EdgeInsets.only(top: 2.h, bottom: 1.h, left: 10, right: 10),
+                  child: CustomText(
+                    text: "Recent",
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
+                );
+              }
 
-                margin: EdgeInsets.all( 10),
+              var event = snapshot.data!.docs[index - 1].data() as Map<String, dynamic>;
+              var eventName = event['event_name'] ?? 'Event Name Missing';
+              var desc = event['event_description'] ?? 'Event Description Missing';
+              var loc = event['event_location'] ?? 'Event Location Missing';
+              var date = event['event_date_time'] ?? 'Event Date Missing';
+
+              return Container(
+                margin: const EdgeInsets.all(10),
                 height: 20.h,
                 decoration: BoxDecoration(
-                  color: Color(0xFFFAFAFA),
+                  color: const Color(0xFFFAFAFA),
                   borderRadius: BorderRadius.circular(5),
                   border: Border.all(color: Color(0xFFEEEEEE)),
                   boxShadow: [
@@ -69,45 +88,63 @@ class EventTabWidget extends StatelessWidget {
                       offset: Offset(0, 3), // changes position of shadow
                     ),
                   ],
-                  
                 ),
                 width: double.maxFinite,
-                child:Row(
-                  children: [Padding(
+                child: Row(
+                  children: [
+                    Padding(
                       padding: const EdgeInsets.all(10),
-                      child: Image.asset("assets/images/event.png")),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Flexible(
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 8.0),
-                          child: CustomText(text: eventName,fontWeight: FontWeight.bold,fontSize: 16.sp,
-                          overflow: TextOverflow.ellipsis,
+                      child: Image.asset("assets/images/event.png"),
+                    ),
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Flexible(
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 8.0),
+                              child: CustomText(
+                                text: eventName,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16.sp,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
                           ),
-                        ),
+                          SizedBox(height: 1.h),
+                          Flexible(
+                            child: CustomText(
+                              text: desc,
+                              fontSize: 12.sp,
+                              fontStyle: FontStyle.italic,
+                              color: Color(0xFF5F5F5F),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          SizedBox(height: 4.h),
+                          Flexible(
+                            child: CustomText(
+                              text: loc,
+                              fontSize: 12.sp,
+                              fontStyle: FontStyle.italic,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          SizedBox(height: 1.h),
+                          Flexible(
+                            child: CustomText(
+                              text: date,
+                              fontSize: 12.sp,
+                              fontStyle: FontStyle.italic,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
                       ),
-                      SizedBox(height: 1.h,),
-                      Flexible(child: CustomText(text: desc,fontSize: 12.sp,fontStyle: FontStyle.italic,color: Color(0xFF5F5F5F),
-                        overflow: TextOverflow.ellipsis,
-
-                      )),
-                      SizedBox(height: 4.h,),
-                      Flexible(child: CustomText(text: loc,fontSize: 12.sp,fontStyle: FontStyle.italic,
-                        overflow: TextOverflow.ellipsis,
-
-                      )),
-                      SizedBox(height: 1.h,),
-                      Flexible(child: CustomText(text: date,fontSize: 12.sp,fontStyle: FontStyle.italic,
-                        overflow: TextOverflow.ellipsis,
-
-                      ))
-                    ],
-                  )
-                  
+                    ),
                   ],
-                )
+                ),
               );
             },
           );
@@ -119,72 +156,72 @@ class EventTabWidget extends StatelessWidget {
 
 
 
-            // const CustomText(text: "Add a new Event!",fontWeight: FontWeight.bold,),
-            // SizedBox(height: 2.h,),
-            // const CustomText(text: "Invite the  Location Admins to their new\nEvent and Management App",
-            //   center: true,
-            // ),
+
           ],
         ),
           Padding(
             padding:  EdgeInsets.only(bottom: 5.h,right: 5.h),
-            child: FloatingActionButton(onPressed: (){
-              controller.isOpen.value = !controller.isOpen.value;
-              if(controller.isOpen.value) {
-                showModalBottomSheet(
-                    backgroundColor: Colors.transparent,
-                    builder: (BuildContext context) {
-                      return Stack(
-                        alignment: Alignment.bottomRight,
-                        // crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(bottom: 15.h, right: 6.h),
-                            child: GestureDetector(
-                              onTap: () {
-                                Get.back();
-                                createEvent(context);
-                              },
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Container(
-                                    padding: EdgeInsets.all(10),
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        color: Colors.white
-                                    ),
-                                    child: CustomText(text: "Create Event",
-                                      fontStyle: FontStyle.italic,
-                                      fontSize: 10.sp,
-                                    ),
+            child:Obx(()=> !controller.hideFloatingBtn.value? FloatingActionButton(onPressed: (){
 
+              controller.isOpen.value = !controller.isOpen.value;
+              controller.hideFloatingBtn.value = !controller.hideFloatingBtn.value;
+              showModalBottomSheet(
+                  backgroundColor: Colors.transparent,
+                  isDismissible: false,
+                  builder: (BuildContext context) {
+                    return Stack(
+                      alignment: Alignment.bottomRight,
+                      // crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(bottom: 15.h, right: 6.h),
+                          child: GestureDetector(
+                            onTap: () {
+                              controller.hideFloatingBtn.value = !controller.hideFloatingBtn.value;
+                              Get.back();
+                              createEvent(context);
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: Colors.white
                                   ),
-                                  SizedBox(width: 2.w,),
-                                  SvgPicture.asset(
-                                    "assets/images/circle_icon.svg",
-                                    height: 5.h, width: 7.w,)
-                                ],
-                              ),
+                                  child: CustomText(text: "Create Event",
+                                    fontStyle: FontStyle.italic,
+                                    fontSize: 10.sp,
+                                  ),
+
+                                ),
+                                SizedBox(width: 2.w,),
+                                SvgPicture.asset(
+                                  "assets/images/circle_icon.svg",
+                                  height: 5.h, width: 7.w,)
+                              ],
                             ),
                           ),
+                        ),
 
-                          Padding(
-                            padding: EdgeInsets.only(bottom: 5.h, right: 5.h),
-                            child: FloatingActionButton(onPressed: () {},
-                              child: Icon(Icons.close),
-                              backgroundColor: Colors.black,),
-                          )
-                        ],
-                      );
-                    }, isScrollControlled: false, context: context);
-              }else{
-                Get.back();
-              }
+                        Padding(
+                          padding: EdgeInsets.only(bottom: 5.h, right: 5.h),
+                          child: FloatingActionButton(onPressed: () {
+                            controller.hideFloatingBtn.value = !controller.hideFloatingBtn.value;
+
+                            Get.back();
+                          },
+                            backgroundColor: Colors.black,
+                            child: const Icon(Icons.close),),
+                        )
+                      ],
+                    );
+                  }, isScrollControlled: false, context: context);
             },
-            child: Icon(Icons.add),
               backgroundColor: Colors.black,
-            ),
+              child: const Icon(Icons.add),
+            ):const SizedBox.shrink()),
           )
 
         ],
@@ -198,88 +235,98 @@ class EventTabWidget extends StatelessWidget {
 
         context: context, builder: (BuildContext c){
       return AlertDialog(
+        scrollable: true,
+
 shape: RoundedRectangleBorder(
   borderRadius: BorderRadius.circular(10)
 ),
-        title: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+        title: Form(
+          key: controller.formKey,
+          child: SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
+            child: Column(
               children: [
-                Spacer(),
-                CustomText(text: "Create Event", fontSize: 14.sp,fontStyle: FontStyle.italic,
-                fontWeight: FontWeight.bold,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Spacer(),
+                    CustomText(text: "Create Event", fontSize: 14.sp,fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.bold,
+                    ),
+                    Spacer(),
+                    GestureDetector(
+                        onTap: (){Get.back();},
+                        child: Icon(Icons.close))
+                  ],
                 ),
-                Spacer(),
-                GestureDetector(
-                    onTap: (){Get.back();},
-                    child: Icon(Icons.close))
+                CustomTextField(
+                  hintText: "Event Name",
+                  controller: controller.eventName,
+                  focusNode: controller.eventNameNode,
+                  shape: FloatingEditTextShape.RoundedBorder14,
+                  textInputAction: TextInputAction.next,
+                  textInputType: TextInputType.text,
+                  // limit: AppConstants.userNameMaxLimit,
+                  validator: (v) {
+                    return Util.fieldCannotBeEmpty(v, fieldName: "Event Name".tr);
+                  },
+                ),
+                SizedBox(height: 2.h,),
+                CustomTextField(
+                  hintText: "Event Location Name",
+                  controller: controller.eventLocationName,
+                  focusNode: controller.eventLocNode,
+                  shape: FloatingEditTextShape.RoundedBorder14,
+                  textInputAction: TextInputAction.next,
+                  textInputType: TextInputType.text,
+                  // limit: AppConstants.userNameMaxLimit,
+                  validator: (v) {
+                    return Util.fieldCannotBeEmpty(v, fieldName: "Event Location Name".tr);
+                  },
+                ),
+                SizedBox(height: 2.h,),
+
+                CustomTextField(
+                  hintText: "Event Date And Time",
+                  controller: controller.eventDateTime,
+                  focusNode: controller.eventDateTimeNode,
+                  shape: FloatingEditTextShape.RoundedBorder14,
+                  textInputAction: TextInputAction.next,
+                  textInputType: TextInputType.text,
+                  // limit: AppConstants.userNameMaxLimit,
+                  validator: (v) {
+                    return Util.fieldCannotBeEmpty(v, fieldName: "Event Date And Time".tr);
+                  },
+                ),
+                SizedBox(height: 2.h,),
+
+                CustomTextField(
+                  hintText: "Event Description",
+                  controller: controller.eventDescription,
+                  focusNode: controller.eventDescNode,
+                  shape: FloatingEditTextShape.RoundedBorder14,
+                  textInputAction: TextInputAction.next,
+                  textInputType: TextInputType.text,
+                  // limit: AppConstants.userNameMaxLimit,
+                  validator: (v) {
+                    return Util.fieldCannotBeEmpty(v, fieldName: "Event Description".tr);
+                  },
+                ),
+
+                SizedBox(height: 4.h,),
+                CustomUniversalButton(
+                  title: 'Create Event'.tr,
+                  height: 6.h,
+                  controller: controller.btnController,
+                  onTap: () async {
+                    if(controller.formKey.currentState!.validate()) {
+                      controller.createEvent();
+                    }
+                  },
+                ),
               ],
             ),
-            CustomTextField(
-              hintText: "Event Name",
-              controller: controller.eventName,
-              focusNode: controller.eventNameNode,
-              shape: FloatingEditTextShape.RoundedBorder14,
-              textInputAction: TextInputAction.next,
-              textInputType: TextInputType.text,
-              // limit: AppConstants.userNameMaxLimit,
-              validator: (v) {
-                return Util.fieldCannotBeEmpty(v, fieldName: "Event Name".tr);
-              },
-            ),
-            SizedBox(height: 2.h,),
-            CustomTextField(
-              hintText: "Event Location Name",
-              controller: controller.eventLocationName,
-              focusNode: controller.eventLocNode,
-              shape: FloatingEditTextShape.RoundedBorder14,
-              textInputAction: TextInputAction.next,
-              textInputType: TextInputType.text,
-              // limit: AppConstants.userNameMaxLimit,
-              validator: (v) {
-                return Util.fieldCannotBeEmpty(v, fieldName: "Event Location Name".tr);
-              },
-            ),
-            SizedBox(height: 2.h,),
-
-            CustomTextField(
-              hintText: "Event Date And Time",
-              controller: controller.eventDateTime,
-              focusNode: controller.eventDateTimeNode,
-              shape: FloatingEditTextShape.RoundedBorder14,
-              textInputAction: TextInputAction.next,
-              textInputType: TextInputType.text,
-              // limit: AppConstants.userNameMaxLimit,
-              validator: (v) {
-                return Util.fieldCannotBeEmpty(v, fieldName: "Event Date And Time".tr);
-              },
-            ),
-            SizedBox(height: 2.h,),
-
-            CustomTextField(
-              hintText: "Event Description",
-              controller: controller.eventDescription,
-              focusNode: controller.eventDescNode,
-              shape: FloatingEditTextShape.RoundedBorder14,
-              textInputAction: TextInputAction.next,
-              textInputType: TextInputType.text,
-              // limit: AppConstants.userNameMaxLimit,
-              validator: (v) {
-                return Util.fieldCannotBeEmpty(v, fieldName: "Event Description".tr);
-              },
-            ),
-
-            SizedBox(height: 4.h,),
-            CustomUniversalButton(
-              title: 'Create Event'.tr,
-              height: 6.h,
-              controller: controller.btnController,
-              onTap: () async {
-                controller.createEvent();
-              },
-            ),
-          ],
+          ),
         ),
       );
     });

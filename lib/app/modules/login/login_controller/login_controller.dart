@@ -45,13 +45,13 @@ class LoginController extends GetxController {
     try{
       UserCredential credential =await firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
       btnController.stop();
-      Get.toNamed(Routes.LOGINVIEW);
+      Get.toNamed(Routes.HOMEVIEW);
       return credential.user;
     }
     catch(e){
       btnController.stop();
       ScaffoldMessenger.of(context).showSnackBar( const SnackBar(
-        content: Text("Please Enter valid email address"),
+        content: Text("Please Enter valid email address or password"),
       ));
       print("Some error $e}");
     }

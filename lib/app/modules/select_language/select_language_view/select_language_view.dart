@@ -31,12 +31,12 @@ class SelectLanguageView extends StatelessWidget {
         leading: Icon(
           Icons.arrow_back,
           color: Colors.black,
-          size: 5.h,
+          size: 4.h,
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.transparent,
         title: CustomText(
           text: 'Select Language',
-          fontSize: 22.sp,
+          fontSize: 18.sp,
           fontWeight: FontWeight.bold,
         ),
       ),
@@ -45,7 +45,7 @@ class SelectLanguageView extends StatelessWidget {
           return false;
         },
         child: Padding(
-          padding: EdgeInsets.all(8.h),
+          padding: EdgeInsets.all(4.h),
           child: ListView(
             padding: const EdgeInsets.all(0),
             physics: const BouncingScrollPhysics(),
@@ -58,7 +58,7 @@ class SelectLanguageView extends StatelessWidget {
                     child: CustomText(
                       text: "Choose Your Language ",
                       fontWeight: FontWeight.w700,
-                      fontSize: 26.sp,
+                      fontSize: 18.sp,
                     ),
                   ),
                   SizedBox(
@@ -93,6 +93,7 @@ class SelectLanguageView extends StatelessWidget {
                         },
                         child: Container(
                           margin: const EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(10),
                           decoration: controller.languageModel[index].selected!.value
                               ? BoxDecoration(
                                   color: const Color(0xFFFAFAFA), borderRadius: BorderRadius.circular(10), border: Border.all(color: Color(0xFFEEEEEE)))

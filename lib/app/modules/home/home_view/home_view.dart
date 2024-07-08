@@ -18,6 +18,7 @@ class HomeView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
+        leading: Container(),
         centerTitle: true,
         toolbarHeight: 15.h,
         title: CustomText(

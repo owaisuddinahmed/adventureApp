@@ -33,12 +33,12 @@ class SignUpView extends StatelessWidget {
         leading: Icon(
           Icons.arrow_back,
           color: Colors.black,
-          size: 5.h,
+          size: 4.h,
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.transparent,
         title: CustomText(
           text: 'Sign Up',
-          fontSize: 22.sp,
+          fontSize: 18.sp,
           fontWeight: FontWeight.bold,
         ),
       ),
@@ -49,8 +49,9 @@ class SignUpView extends StatelessWidget {
         child: Form(
           key: controller.formKey,
           child: ListView(
+            physics: BouncingScrollPhysics(),
             shrinkWrap: true,
-            padding: EdgeInsets.all(8.h),
+            padding: EdgeInsets.all(4.h),
             children: [
               CustomText(
                 text: "Hello there 👋",
@@ -107,7 +108,7 @@ class SignUpView extends StatelessWidget {
                   shape: FloatingEditTextShape.RoundedBorder14,
                   textInputAction: TextInputAction.next,
                   textInputType: TextInputType.text,
-                  isObscureText: controller.showPassword.value,
+                  isObscureText: !controller.showPassword.value,
                   suffix: InkWell(
                     onTap: () {
                       controller.showPassword.value = !controller.showPassword.value;
@@ -151,7 +152,7 @@ class SignUpView extends StatelessWidget {
                   focusNode: controller.confirmPasswordNode,
                   textInputAction: TextInputAction.done,
                   textInputType: TextInputType.text,
-                  isObscureText: controller.showConfirmPassword.value,
+                  isObscureText: !controller.showConfirmPassword.value,
                   suffix: InkWell(
                     onTap: () {
                       controller.showConfirmPassword.value = !controller.showConfirmPassword.value;
@@ -187,7 +188,7 @@ class SignUpView extends StatelessWidget {
                   child: Row(
                     children: [
                       Container(
-                      height: 3.5.h,
+                      height: 3.h,
                         width: 6.w,
                         padding: EdgeInsets.all(0.5.h),
                         decoration: BoxDecoration(
@@ -214,6 +215,7 @@ class SignUpView extends StatelessWidget {
                 onTap: () async {
 
                   if (controller.formKey.currentState!.validate()) {
+                    Util.hideKeyBoard(context);
 
                        controller.signUp(controller.userNameController.text,
                        controller.passwordController.text,context
@@ -235,7 +237,7 @@ class SignUpView extends StatelessWidget {
 
                   GestureDetector(
                   onTap: (){
-                    Get.toNamed(Routes.LOGINVIEW);
+                    Get.offAllNamed(Routes.LOGINVIEW);
                   },
                     child: CustomText(text: "Sign In"
                  ,fontWeight: FontWeight.bold,
